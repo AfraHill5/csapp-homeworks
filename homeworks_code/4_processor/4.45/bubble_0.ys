@@ -1,0 +1,41 @@
+/* $begin code-yso */
+/* $begin code-ysa */
+# Execution begins at address 0 
+	.pos 0 
+init:	irmovl Stack, %esp  	# Set up stack pointer  
+	irmovl Stack, %ebp  	# Set up base pointer   
+	call Main		# Execute main program
+	halt			# Terminate program 
+
+# Array of 4 elements
+	.align 4 	
+array:	.long 0x4
+	.long 0x3
+	.long 0x2
+	.long 0x1	
+
+Main:	pushl %ebp 
+	rrmovl %esp,%ebp
+	irmovl $4,%eax	
+	pushl %eax		# Push 4
+	irmovl array,%edx
+	pushl %edx      	# Push array
+	call Bubble_ptr		# Bubble_ptr(array, 4)
+	rrmovl %ebp,%esp
+	popl %ebp
+	halt
+
+/* */
+
+Bubble_ptr:	 
+
+/* */
+
+
+
+
+# The stack starts here and grows to lower addresses
+	.pos 0x100		
+Stack:	 
+/* $end code-ysa */
+/* $end code-yso */

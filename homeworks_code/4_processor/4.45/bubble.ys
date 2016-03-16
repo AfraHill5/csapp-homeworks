@@ -1,0 +1,102 @@
+/* $begin code-yso */
+/* $begin code-ysa */
+# Execution begins at address 0 
+	.pos 0 
+init:	irmovl Stack, %esp  	# Set up stack pointer  
+	irmovl Stack, %ebp  	# Set up base pointer   
+	call Main		# Execute main program
+	halt			# Terminate program 
+
+# Array of 4 elements
+	.align 4 	
+array:	.long 0xa
+	.long 0x3
+	.long 0x2
+	.long 0x1	
+
+Main:	pushl %ebp 
+	rrmovl %esp,%ebp
+	irmovl $4,%eax	
+	pushl %eax		# Push 4
+	irmovl array,%edx
+	pushl %edx      	# Push array
+	call Bubble_ptr		# Bubble_ptr(array, 4)
+	rrmovl %ebp,%esp
+	popl %ebp
+	halt
+
+/* $begin bubble_ptr-ys 0 */
+	# int Bubble_ptr(int *Data, int Count)
+
+Bubble_ptr:	 pushl %ebp
+	rrmovl %esp,%ebp
+	pushl	%ebx
+	pushl	%edi
+	pushl	%esi
+	pushl	%eax
+
+	mrmovl  12(%ebp),%edx	# edx = Count
+	rrmovl	%edx, %ecx
+	irmovl	$2, %ebx
+	subl	%ebx, %ecx
+	jl		End
+
+	## preparation
+	mrmovl	8(%ebp), %eax   # %eax = Data
+	addl	%ecx, %ecx
+	addl	%ecx, %ecx	
+	addl 	%eax, %ecx
+	rmmovl	%ecx, -16(%ebp)
+	rrmovl	%eax, %esi
+
+OuterLoopHeader:
+	rrmovl	%esi, %edi
+	rrmovl	%esi, %ecx
+	subl	%edi, %ecx
+	jg		OuterLoopTail
+
+InnerLoopHeader:
+	mrmovl	(%edi), %ecx
+	mrmovl	4(%edi), %ebx
+	pushl	%ebx
+	subl	%ecx, %ebx
+	popl	%ebx
+	jge		InnerLoopTail
+
+	# exchange
+	rmmovl	%ecx, 4(%edi)
+	rmmovl	%ebx, (%edi)
+
+InnerLoopTail:
+	irmovl	$-4, %ecx
+	addl	%ecx, %edi
+	rrmovl	%edi, %ecx
+	subl	%eax, %ecx
+	jge		InnerLoopHeader
+
+OuterLoopTail:
+	irmovl 	$8, %ecx
+	addl	%esi, %ecx
+	rrmovl	%edx, %esi
+	rrmovl  %ecx, %edx
+
+	mrmovl	-16(%ebp), %edi
+	subl	%edi, %ecx
+	jl		OuterLoopHeader
+
+End:	
+	irmovl  $4, %ebx
+	addl	%ebx, %esp
+	popl	%esi
+	popl	%edi
+	popl	%ebx
+	popl	%ebp
+	ret
+/* $end bubble_ptr-ys 0 */
+
+
+# The stack starts here and grows to lower addresses
+	.pos 0x150		
+Stack:	 
+/* $end code-ysa */
+/* $end code-yso */

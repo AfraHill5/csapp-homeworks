@@ -1,0 +1,163 @@
+	.file	"54.c"
+	.text
+.globl bubble_a
+	.type	bubble_a, @function
+bubble_a:
+	pushl	%ebp
+	rrmovl	%esp, %ebp
+	irmovl $16,%esi
+	subl	%esi, %esp
+	irmovl $1,%esi
+	rmmovl	%esi, -8(%ebp)
+	jmp	.L2
+.L6:
+	mrmovl	-8(%ebp), %eax
+	irmovl $1,%esi
+	subl	%esi, %eax
+	rmmovl	%eax, -12(%ebp)
+	jmp	.L3
+.L5:
+	mrmovl	-12(%ebp), %eax
+	irmovl $1,%esi
+	addl	%esi, %eax
+	addl %eax,%eax
+	addl %eax,%eax
+	mrmovl 8(%ebp),%esi
+	addl	%esi, %eax
+	mrmovl	(%eax), %edx
+	mrmovl	-12(%ebp), %eax
+	addl %eax,%eax
+	addl %eax,%eax
+	mrmovl 8(%ebp),%esi
+	addl	%esi, %eax
+	mrmovl	(%eax), %eax
+	rrmovl %eax,%esi
+	rrmovl %edx,%edi
+	subl	%esi,%edi
+	jge	.L4
+	mrmovl	-12(%ebp), %eax
+	irmovl $1,%esi
+	addl	%esi, %eax
+	addl %eax,%eax
+	addl %eax,%eax
+	mrmovl 8(%ebp),%esi
+	addl	%esi, %eax
+	mrmovl	(%eax), %eax
+	rmmovl	%eax, -4(%ebp)
+	mrmovl	-12(%ebp), %eax
+	irmovl $1,%esi
+	addl	$esi, %eax
+	addl %eax,%eax
+	addl %eax,%eax
+	mrmovl 8(%ebp),%esi
+	addl	%esi, %eax
+	mrmovl	-12(%ebp), %edx
+	addl %edx,%edx
+	addl %edx,%edx
+	mrmovl 8(%ebp),%esi
+	addl	%esi, %edx
+	mrmovl	(%edx), %edx
+	rmmovl	%edx, (%eax)
+	mrmovl	-12(%ebp), %eax
+	addl %eax,%eax
+	addl %eax,%eax
+	mrmovl 8(%ebp),%esi
+	addl	%esi, %eax
+	mrmovl	-4(%ebp), %edx
+	rmmovl	%edx, (%eax)
+.L4:
+	irmovl $1,%esi
+	mrmovl -12(%ebp),%edi
+	subl %esi,%edi
+	rmmovl %edi, -12(%ebp)
+.L3:
+	irmovl $0,%esi
+	mrmovl -12(%ebp),%edi
+	subl %esi,%edi
+	jns	.L5
+	irmovl $1,%esi
+	mrmovl  -8(%ebp),%edi
+	addl %esi,%edi
+	rmmovl %edi, -8(%ebp)
+.L2:
+	mrmovl	-8(%ebp), %eax
+	mrmovl 12(%ebp),%esi
+	rrmovl %eax,%edi
+	subl %esi, %edi
+	jl	.L6
+	rrmovl %ebp,%esp
+	popl %ebp
+	ret
+	.size	bubble_a, .-bubble_a
+	.section	.rodata
+.LC0:
+	.string	"%d "
+	.text
+.globl main
+	.type	main, @function
+main:
+	pushl	%ebp
+	rrmovl	%esp, %ebp
+	irmovl $-16,%esi
+	andl	%esi, %esp
+	irmovl $64,%esi
+	subl	%esi, %esp
+	irmovl $54,%esi
+	rmmovl	%esi, 20(%esp)
+	irmovl $63,%esi
+	rmmovl	%esi, 24(%esp)
+	irmovl $0,%esi
+	rmmovl	%esi, 28(%esp)
+	irmovl $-12,%esi
+	rmmovl	%esi, 32(%esp)
+	irmovl $45,%esi
+	rmmovl	%esi, 36(%esp)
+	irmovl $34523,%esi
+	rmmovl	%esi, 40(%esp)
+	irmovl $34,%esi
+	rmmovl	%esi, 44(%esp)
+	irmovl $-4,%esi
+	rmmovl	%esi, 48(%esp)
+	irmovl $0,%esi
+	rmmovl	%esi, 52(%esp)
+	irmovl $345,%esi
+	rmmovl	%esi, 56(%esp)
+	irmovl $10,%esi
+	rmmovl	%esi, 4(%esp)
+	rrmovl %esp,%eax
+	irmovl $20,%esi
+	addl %esi,%eax
+	rmmovl	%eax, (%esp)
+	call	bubble_a
+	irmovl $0,%esi
+	rmmovl	%esi, 60(%esp)
+	jmp	.L9
+.L10:
+	mrmovl	60(%esp), %eax
+	rrmovl %eax,%edx
+	addl %edx,%edx
+	addl %edx,%edx
+	rrmovl %esp,%eax
+	irmovl $20,%esi
+	addl %esi,%eax
+	addl	%edx, %eax
+	mrmovl	(%eax), %edx
+	rmmovl	$.LC0, %eax
+	rmmovl	%edx, 4(%esp)
+	rmmovl	%eax, (%esp)
+	call	printf
+	irmovl $1,%esi
+	mrmovl 60(%esp),%edi
+	addl	%esi,%edi
+	rmmovl %edi,60(%esp);
+.L9:
+	irmovl $9,%esi
+	mrmovl 60(%esp),%edi
+	subl %esi,%edi
+	jle	.L10
+	rrmovl %ebp,%esp
+	popl %ebp
+	ret
+	.size	main, .-main
+	.ident	"GCC: (GNU) 4.4.7 20120313 (Red Hat 4.4.7-3)"
+	.section	.note.GNU-stack,"",@progbits

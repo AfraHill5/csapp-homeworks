@@ -1,0 +1,19 @@
+        irmovl $0x200,%esp
+	irmovl $32, %eax
+	nop
+	nop
+        nop
+        rmmovl %eax, 0(%esp)
+	irmovl $4, %eax
+	nop
+        nop
+        nop
+	rmmovl %eax, -4(%esp)
+	irmovl $256, %edx
+	nop
+        nop
+        nop
+	popl %edx
+	nop
+	nop
+        halt

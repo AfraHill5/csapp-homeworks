@@ -1,0 +1,32 @@
+/* $begin code-yso */
+/* $begin code-ysa */
+# This version makes use of the iaddl instruction
+# Execution begins at address 0
+	.pos 0
+init:	irmovl Stack, %esp  	# Set up Stack pointer
+	irmovl Stack, %ebp  	# Set up base pointer
+	jmp Main		# Execute main program
+
+
+Main:	
+	pushl 	%ebp
+	rrmovl	%esp, %ebp
+	pushl %esi
+	irmovl $3, %esi
+	pushl %esi
+	pushl %esi
+	popl %esi
+	popl %esi
+
+
+	leave
+	pushl %esi
+	popl  %esi
+
+	halt
+
+
+	.pos 0x100
+Stack:	# The stack goes here
+/* $end code-ysa */
+/* $end code-yso */

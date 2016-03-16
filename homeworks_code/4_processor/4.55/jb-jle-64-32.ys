@@ -1,0 +1,24 @@
+	      irmovl stack, %esp
+	      irmovl $1, %esi
+	      irmovl $2, %edi
+	      irmovl $4, %ebp
+	      irmovl $64, %eax
+	      irmovl $32, %edx
+	      jmp skip
+	      halt
+target:
+	      addl %esi,%edx
+	      addl %edi,%edx
+	      addl %ebp,%edx
+              nop
+              nop
+	      halt
+skip:
+	      subl %edx,%eax
+	      jle target
+	      addl %esi,%eax
+	      addl %edi,%eax
+	      addl %ebp,%eax
+              halt
+.pos 0x100
+stack:
